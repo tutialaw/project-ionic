@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-  <ion-title>login</ion-title>
+  <ion-title>Halaman login</ion-title>
   </ion-toolbar>
  </ion-header>
  <ion-content>
@@ -10,12 +10,13 @@
   </ion-item>
   <ion-item lines="full">
   <ion-label position="floating">Password</ion-label>
-  <ion-input type="password" [(ngModel)]="password" required="required"></ioninput>
+  <ion-input type="password" [(ngModel)]="password" required="required">
+  </ion-input>
   </ion-item>
   <ion-row>
   <ion-col>
   <ion-button type="submit" color="primary" expand="block"
- (click)="login()">Login</ion-button>
+ (click)="prosesLogin()">Login</ion-button>
   </ion-col>
   </ion-row>
  </ion-content>

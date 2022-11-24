@@ -1,33 +1,38 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject } from 'rxjs';
-import { Preferences } from '@capacitor/preferences';
-const TOKEN_KEY = 'token-saya';
+import { AlertController } from '@ionic/angular';
+import { Observable } from 'rxjs';
 @Injectable({
- providedIn: 'root'
+  providedIn: 'root'
 })
 export class AuthenticationService {
- // Inisialisasi is auth
- isAuthenticated: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(null);
- token = '';
- constructor(private http: HttpClient) {
- this.loadToken();
- }
- async loadToken() {
- const token = await Preferences.get({ key: TOKEN_KEY });
- if (token && token.value) {
- console.log('set token: ', token.value);
- this.token = token.value;
- this.isAuthenticated.next(true);
- } else {
- this.isAuthenticated.next(false);
- }
- }
- apiURL() {
- return "http://localhost/backend/";
- }
- logout(): Promise<void> {
- this.isAuthenticated.next(false);
- return Preferences.remove({ key: TOKEN_KEY });
- }
+  constructor(private http: HttpClient, private alert: AlertController) {
+  }
+  public saveData(key: string, value: string) {
+    localStorage.setItem(key, value);
+  }
+  postMethod(data: any, link: any): Observable<any> {
+    return this.http.post(this.apiURL() + '/' + link, data);
+  }
+  public getData(key: string) {
+    return localStorage.getItem(key)
+  }
+  public clearData() {
+    localStorage.clear();
+  }
+  notifikasi(pesan: string) {
+    return this.alert.create({
+      header: 'Notifikasi',
+      message: pesan,
+      buttons: ['OK']
+    }).then(res => {
+      res.present();
+    });
+  }
+  apiURL() {
+    return "http://localhost/backend1";
+  }
+  logout() {
+    this.clearData();
+  }
 }
